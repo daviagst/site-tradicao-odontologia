@@ -11,6 +11,43 @@ const photos = gallery
 
 const media = gsap.matchMedia();
 
+// Touch/keyboard controls for the horizontal fallback on short screens.
+let controls;
+let observer;
+const controller = new AbortController();
+if (gallery && photos.length > 1) {
+  gallery.tabIndex = 0;
+  controls = document.createElement('div');
+  controls.className = 'clinic__controls';
+  controls.innerHTML = '<button type="button" aria-label="Foto anterior">←</button><span aria-live="polite"></span><button type="button" aria-label="Próxima foto">→</button>';
+  gallery.after(controls);
+  const [previous, next] = controls.querySelectorAll('button');
+  const status = controls.querySelector('span');
+  let current = 0;
+  const update = () => {
+    if (section.classList.contains('is-scroll-gallery')) return;
+    const center = gallery.getBoundingClientRect().left + gallery.clientWidth / 2;
+    current = photos.reduce((best, photo, index) => {
+      const bounds = photo.getBoundingClientRect();
+      const old = photos[best].getBoundingClientRect();
+      return Math.abs(bounds.left + bounds.width / 2 - center) < Math.abs(old.left + old.width / 2 - center) ? index : best;
+    }, 0);
+    status.textContent = `${current + 1} / ${photos.length}`;
+    previous.disabled = current === 0;
+    next.disabled = current === photos.length - 1;
+  };
+  const go = direction => {
+    const target = photos[Math.max(0, Math.min(photos.length - 1, current + direction))];
+    gallery.scrollBy({ left: target.getBoundingClientRect().left + target.clientWidth / 2 - gallery.getBoundingClientRect().left - gallery.clientWidth / 2, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+  };
+  previous.addEventListener('click', () => go(-1), { signal: controller.signal });
+  next.addEventListener('click', () => go(1), { signal: controller.signal });
+  gallery.addEventListener('scroll', update, { passive: true, signal: controller.signal });
+  observer = new ResizeObserver(update);
+  observer.observe(gallery);
+  update();
+}
+
 if (section && gallery && photos.length > 1) {
   media.add(
     "(prefers-reduced-motion: no-preference) and (min-height: 650px)",
@@ -27,6 +64,8 @@ if (section && gallery && photos.length > 1) {
         xPercent: -50,
         yPercent: -50,
         transformOrigin: "center center",
+        opacity: 1,
+        zIndex: 0,
       });
 
       // Atualizadores rápidos para acompanhar a rolagem.
@@ -78,7 +117,7 @@ if (section && gallery && photos.length > 1) {
 
           // Mais fotos = mais distância de rolagem.
           end: () =>
-            `+=${(total - 1) * window.innerHeight * 0.9}`,
+            `+=${(total - 1) * section.clientHeight * 0.8}`,
 
           pin: true,
           scrub: 0.8,
@@ -113,5 +152,10 @@ if (section && gallery && photos.length > 1) {
 }
 
 if (import.meta.hot) {
-  import.meta.hot.dispose(() => media.revert());
+  import.meta.hot.dispose(() => {
+    media.revert();
+    controller.abort();
+    observer?.disconnect();
+    controls?.remove();
+  });
 }

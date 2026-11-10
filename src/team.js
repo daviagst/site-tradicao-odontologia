@@ -69,7 +69,7 @@ if (section && stack) {
 
   media.add(
     {
-      desktop: "(min-width: 768px) and (min-height: 700px)",
+      desktop: "(min-height: 700px)",
       motion: "(prefers-reduced-motion: no-preference)",
     },
     (context) => {
@@ -125,7 +125,7 @@ if (section && stack) {
         scrollTrigger: {
           trigger: section,
           start: "top top",
-          end: () => `+=${window.innerHeight * cards.length}`,
+          end: () => `+=${section.clientHeight * cards.length * (window.innerWidth < 768 ? 0.7 : 1)}`,
           pin: true,
           scrub: 0.8,
           anticipatePin: 1,

@@ -1,10 +1,12 @@
 import "./style.css";
+import "./responsive.css";
 import { gsap } from "gsap";
 import "./services.js";
 import "./clinic.js"
 import "./section-texts.js";
 import "./team.js";
 import "./closing.js";
+import "./navigation.js";
 
 const lines = [...document.querySelectorAll("#hero-title .title-line")];
 const originalHTML = lines.map((line) => line.innerHTML);

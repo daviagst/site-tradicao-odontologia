@@ -61,6 +61,7 @@ if (grid) {
             <span class="service-card__name">
               ${service.name}
             </span>
+            <span class="service-card__hint">Ver detalhes +</span>
           </button>
 
           <div
@@ -68,6 +69,7 @@ if (grid) {
             id="service-panel-${index}"
             inert
           >
+            <button class="service-card__close" type="button" aria-label="Fechar detalhes">×</button>
             <a class="service-card__schedule" href="#contato">
               Agendar
               <span aria-hidden="true">→</span>
@@ -86,6 +88,7 @@ if (grid) {
   grid.querySelectorAll(".service-card").forEach((card) => {
     const button = card.querySelector(".service-card__front");
     const panel = card.querySelector(".service-card__panel");
+    const close = card.querySelector('.service-card__close');
 
     function setOpen(open) {
       card.classList.toggle("is-open", open);
@@ -108,8 +111,12 @@ if (grid) {
       }
     });
 
-    button.addEventListener("click", () => {
-      setOpen(!card.classList.contains("is-open"));
+    button.addEventListener("click", (event) => {
+      setOpen(event.pointerType === 'mouse' ? true : !card.classList.contains("is-open"));
+    });
+    close.addEventListener('click', () => {
+      button.focus({ preventScroll: true });
+      setOpen(false);
     });
 
     card.addEventListener("focusout", (event) => {

@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Tradição Odontologia em Gurupi." />
+  <link rel="shortcut icon" href="/assets/favicon/favicon.ico" type="image/x-icon">
   <title>Tradição Odontologia</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -29,7 +30,10 @@
           <img src="/assets/img/tradicao-odontologia.svg" alt="Tradição Odontologia" width="66" height="66" />
         </a>
 
-        <nav class="nav" aria-label="Navegação principal">
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">
+          <span class="menu-toggle__label">Menu</span><span class="menu-toggle__icon" aria-hidden="true"></span>
+        </button>
+        <nav class="nav" id="main-nav" aria-label="Navegação principal">
           <a href="#inicio">Início</a>
           <a href="#tratamentos">Tratamentos</a>
           <a href="#clinica">Nossa clínica</a>
