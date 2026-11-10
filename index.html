@@ -1,17 +1,273 @@
 <!doctype html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Tradição Odontologia" />
-    <title>Tradição Odontologia</title>
-  </head>
-  <body>
-    <main id="app">
-      <p class="eyebrow">Site em preparação</p>
-      <h1>Tradição Odontologia</h1>
-      <p>Uma nova experiência está chegando.</p>
-    </main>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Tradição Odontologia em Gurupi." />
+  <title>Tradição Odontologia</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600&family=Parisienne&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="src/style.css">
+</head>
+
+<body>
+  <main>
+    <section class="hero" id="inicio" aria-labelledby="hero-title">
+      <div class="hero__media" aria-hidden="true">
+        <img class="hero__image" src="/assets/img/imagem-consultorio.png" alt="" fetchpriority="high" />
+      </div>
+
+      <div class="hero__shade" aria-hidden="true"></div>
+
+      <header class="header">
+        <a class="brand" href="#inicio" aria-label="Tradição Odontologia — início">
+          <img src="/assets/img/tradicao-odontologia.svg" alt="Tradição Odontologia" width="66" height="66" />
+        </a>
+
+        <nav class="nav" aria-label="Navegação principal">
+          <a href="#inicio">Início</a>
+          <a href="#tratamentos">Tratamentos</a>
+          <a href="#clinica">Nossa clínica</a>
+          <a href="#equipe">Equipe</a>
+          <a href="#contato">Contato</a>
+        </nav>
+      </header>
+
+      <div class="hero__content">
+        <p class="hero__eyebrow">Há mais de 30 anos em Gurupi</p>
+
+        <h1 id="hero-title" aria-label="Seu sorriso. Merece cuidado. E confiança.">
+          <span class="title-line" aria-hidden="true">Seu sorriso</span>
+          <em class="title-line" aria-hidden="true">Merece cuidado</em>
+          <span class="title-line" aria-hidden="true">E confiança.</span>
+        </h1>
+
+        <div class="hero__actions">
+          <a class="button button--glass" href="#contato">
+            Agendar avaliação
+            <span aria-hidden="true">↗</span>
+          </a>
+
+          <a class="button button--gold" href="#tratamentos">
+            Conhecer tratamentos
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="services" id="tratamentos" aria-labelledby="services-title">
+      <div class="services__container">
+        <header class="services__header">
+          <span class="services__label">Serviços</span>
+
+          <div>
+            <h2 id="services-title">
+              CUIDADO EM
+              <em>cada fase!</em>
+            </h2>
+
+            <p>
+              Conheça nossas áreas de atendimento e encontre
+              o cuidado que combina com você.
+            </p>
+          </div>
+        </header>
+
+        <div class="services__grid" id="services-grid"></div>
+
+        <div class="services__footer">
+          <h3>Não sabe por onde <em>começar?</em></h3>
+          <p>Nossa equipe pode orientar você.</p>
+          <a href="#contato" class="services__cta">Agendar avaliação</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="clinic" id="clinica" aria-labelledby="clinic-title">
+      <div class="clinic__heading">
+        <span class="clinic__line" aria-hidden="true"></span>
+
+        <h2 id="clinic-title">
+          <span class="clinic-title-line">
+            Tradição no <em>cuidado.</em>
+          </span>
+
+          <span class="clinic-title-line">
+            Acolhimento em <em>cada visita.</em>
+          </span>
+        </h2>
+
+        <p>
+          Há mais de 30 anos, a <strong>Tradição Odontologia</strong>
+          faz parte da história de Gurupi, oferecendo atendimento
+          em odontologia e estética facial.
+        </p>
+      </div>
+
+      <div class="clinic__gallery" aria-label="Fotos da nossa clínica">
+        <figure class="clinic__photo">
+          <img src="/assets/img/image 9.png" alt="Fachada da Tradição Odontologia" />
+        </figure>
+
+        <figure class="clinic__photo">
+          <img src="/assets/img/image 9.png" alt="Ambiente de atendimento da clínica" />
+        </figure>
+
+        <figure class="clinic__photo">
+          <img src="/assets/img/image 9.png" alt="Equipe da Tradição Odontologia" />
+        </figure>
+      </div>
+    </section>
+
+    <section class="team" id="equipe" aria-labelledby="team-title">
+      <div class="team__container">
+        <h2 id="team-title" class="team__title">
+          <span>Conheça os <em>profissionais</em></span>
+          <span>por trás de <em>cada cuidado.</em></span>
+        </h2>
+
+        <div class="team__stack" id="team-stack"></div>
+      </div>
+    </section>
+
+    <section class="testimonials" id="contato" aria-labelledby="testimonials-title">
+      <div class="testimonials__container">
+        <header class="testimonials__heading">
+          <h2 id="testimonials-title">
+            Histórias que nos fazem <em>sorrir.</em>
+          </h2>
+        </header>
+
+        <div class="testimonials__grid">
+          <figure class="testimonials__photo">
+            <img src="/assets/img/image 13.png" alt="Atendimento odontológico na clínica" loading="lazy" />
+          </figure>
+
+          <article class="review">
+            <span class="review__stars" aria-label="5 de 5 estrelas">
+              <span aria-hidden="true">★★★★★</span>
+            </span>
+
+            <blockquote>
+              “Equipe especializada, ótimo atendimento e qualidade em
+              todos os tratamentos.”
+            </blockquote>
+
+            <p class="review__author">Helen Teotonio</p>
+          </article>
+
+          <article class="review">
+            <span class="review__stars" aria-label="5 de 5 estrelas">
+              <span aria-hidden="true">★★★★★</span>
+            </span>
+
+            <blockquote>
+              “O ambiente é acolhedor, moderno e nos deixa à vontade
+              durante todo o processo.”
+            </blockquote>
+
+            <p class="review__author">Yuri Maciel</p>
+          </article>
+
+          <article class="review">
+            <span class="review__stars" aria-label="5 de 5 estrelas">
+              <span aria-hidden="true">★★★★★</span>
+            </span>
+
+            <blockquote>
+              “Espaço maravilhoso, profissionais cordiais,
+              atendimento de primeira.”
+            </blockquote>
+
+            <p class="review__author">Fabiana Bertocco</p>
+          </article>
+
+          <article class="review">
+            <span class="review__stars" aria-label="5 de 5 estrelas">
+              <span aria-hidden="true">★★★★★</span>
+            </span>
+
+            <blockquote>
+              “Fui recebido com atenção desde o primeiro contato.
+              A equipe explicou cada etapa com calma e me deixou
+              à vontade para tirar minhas dúvidas.”
+            </blockquote>
+
+            <p class="review__author">Marcos Aurelio</p>
+          </article>
+
+          <article class="review">
+            <span class="review__stars" aria-label="5 de 5 estrelas">
+              <span aria-hidden="true">★★★★★</span>
+            </span>
+
+            <blockquote>
+              “O ambiente é acolhedor e o atendimento foi muito cuidadoso.
+              Gostei de poder conversar sobre minhas necessidades sem
+              sentir pressa.”
+            </blockquote>
+
+            <p class="review__author">Juliana Beatriz</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">
+    <div class="footer__container">
+      <div class="footer__main">
+        <div class="footer__brand">
+          <a href="#inicio" aria-label="Tradição Odontologia — início">
+            <img src="/assets/img/tradicao-odontologia.svg" alt="Tradição Odontologia" width="150" height="150" />
+          </a>
+
+          <p>Cuidado que faz parte da sua história.</p>
+        </div>
+
+        <div class="footer__location">
+          <h2>Venha nos conhecer</h2>
+
+          <address>
+            R. Pres. Juscelino Kubitschek, 1382<br />
+            Centro, Gurupi – TO<br />
+            CEP 77405-105
+          </address>
+
+          <a class="footer__map"
+            href="https://www.google.com/maps/search/?api=1&query=Rua+Presidente+Juscelino+Kubitschek+1382+Centro+Gurupi+TO"
+            target="_blank" rel="noopener noreferrer">
+            Como chegar <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+
+        <nav class="footer__nav" aria-label="Navegação do rodapé">
+          <h2>Explore</h2>
+          <a href="#inicio">Início</a>
+          <a href="#tratamentos">Tratamentos</a>
+          <a href="#clinica">Nossa clínica</a>
+          <a href="#equipe">Equipe</a>
+        </nav>
+      </div>
+
+      <div class="footer__bottom">
+        <p>
+          © <span id="footer-year">2026</span> Tradição Odontologia.
+          Todos os direitos reservados.
+        </p>
+
+        <a href="#inicio">
+          Voltar ao início <span aria-hidden="true">↑</span>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+
 </html>
