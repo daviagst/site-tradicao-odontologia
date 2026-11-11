@@ -1,39 +1,39 @@
 import "./booking.css";
 
 const SERVICES = [
-  "Avaliação odontológica",
-  "Implantes dentários",
-  "Ortodontia",
-  "Odontopediatria",
-  "Clareamento dental",
-  "Laserterapia",
-  "Estética facial",
+    "Avaliação odontológica",
+    "Implantes dentários",
+    "Ortodontia",
+    "Odontopediatria",
+    "Clareamento dental",
+    "Laserterapia",
+    "Estética facial",
 ];
 
 const TIMES = [
-  "08:00", "08:30", "09:00", "09:30",
-  "10:00", "10:30", "11:00", "11:30",
-  "14:00", "14:30", "15:00", "15:30",
-  "16:00", "16:30", "17:00",
+    "08:00", "08:30", "09:00", "09:30",
+    "10:00", "10:30", "11:00", "11:30",
+    "14:00", "14:30", "15:00", "15:30",
+    "16:00", "16:30", "17:00",
 ];
 
 const STORAGE_KEY = "tradicao-agendamentos-demo-v1";
 
 function dateKey(date) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
 
-  return `${year}-${month}-${day}`;
+    return `${year}-${month}-${day}`;
 }
 
 function readBookings() {
-  try {
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-    return Array.isArray(saved) ? saved : [];
-  } catch {
-    return [];
-  }
+    try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+        return Array.isArray(saved) ? saved : [];
+    } catch {
+        return [];
+    }
 }
 
 let bookings = readBookings();
@@ -72,8 +72,8 @@ dialog.innerHTML = `
         <select name="service" required>
           <option value="">Selecione o serviço</option>
           ${SERVICES.map(
-            (service) => `<option value="${service}">${service}</option>`
-          ).join("")}
+    (service) => `<option value="${service}">${service}</option>`
+).join("")}
         </select>
       </label>
 
@@ -131,12 +131,12 @@ let selectedTime = "";
 let opener = null;
 
 function updateDateLimits() {
-  const today = new Date();
-  const lastDay = new Date(today);
-  lastDay.setDate(lastDay.getDate() + 60);
+    const today = new Date();
+    const lastDay = new Date(today);
+    lastDay.setDate(lastDay.getDate() + 60);
 
-  dateInput.min = dateKey(today);
-  dateInput.max = dateKey(lastDay);
+    dateInput.min = dateKey(today);
+    dateInput.max = dateKey(lastDay);
 }
 
 /*
@@ -144,231 +144,231 @@ function updateDateLimits() {
  * Depois substituímos esta função por uma consulta ao sistema da clínica.
  */
 function availableTimes(day) {
-  const date = new Date(`${day}T12:00:00`);
-  const weekday = date.getDay();
+    const date = new Date(`${day}T12:00:00`);
+    const weekday = date.getDay();
 
-  if (weekday === 0) return [];
+    if (weekday === 0) return [];
 
-  const dailyTimes =
-    weekday === 6
-      ? TIMES.filter((time) => time < "12:00")
-      : TIMES;
+    const dailyTimes =
+        weekday === 6
+            ? TIMES.filter((time) => time < "12:00")
+            : TIMES;
 
-  const now = new Date();
+    const now = new Date();
 
-  return dailyTimes.map((time, index) => {
-    const startsAt = new Date(`${day}T${time}:00`);
+    return dailyTimes.map((time, index) => {
+        const startsAt = new Date(`${day}T${time}:00`);
 
-    // Alguns horários ocupados para demonstrar a experiência.
-    const simulatedBusy = (date.getDate() + index) % 5 === 0;
+        // Alguns horários ocupados para demonstrar a experiência.
+        const simulatedBusy = (date.getDate() + index) % 5 === 0;
 
-    const alreadyBooked = bookings.some(
-      (booking) => booking.day === day && booking.time === time
-    );
+        const alreadyBooked = bookings.some(
+            (booking) => booking.day === day && booking.time === time
+        );
 
-    return {
-      time,
-      available:
-        !simulatedBusy &&
-        !alreadyBooked &&
-        startsAt > now,
-    };
-  });
+        return {
+            time,
+            available:
+                !simulatedBusy &&
+                !alreadyBooked &&
+                startsAt > now,
+        };
+    });
 }
 
 function renderTimes() {
-  selectedTime = "";
-  submit.disabled = true;
-  timesContainer.replaceChildren();
-  error.textContent = "";
+    selectedTime = "";
+    submit.disabled = true;
+    timesContainer.replaceChildren();
+    error.textContent = "";
 
-  updateDateLimits();
+    updateDateLimits();
 
-  if (!serviceInput.value || !dateInput.value) {
-    status.textContent = "Selecione o serviço e o dia para ver os horários.";
-    return;
-  }
+    if (!serviceInput.value || !dateInput.value) {
+        status.textContent = "Selecione o serviço e o dia para ver os horários.";
+        return;
+    }
 
-  if (
-    !dateInput.validity.valid ||
-    dateInput.value < dateInput.min ||
-    dateInput.value > dateInput.max
-  ) {
-    status.textContent = "Escolha uma data válida nos próximos 60 dias.";
-    return;
-  }
+    if (
+        !dateInput.validity.valid ||
+        dateInput.value < dateInput.min ||
+        dateInput.value > dateInput.max
+    ) {
+        status.textContent = "Escolha uma data válida nos próximos 60 dias.";
+        return;
+    }
 
-  const slots = availableTimes(dateInput.value);
+    const slots = availableTimes(dateInput.value);
 
-  if (!slots.length) {
-    status.textContent = "Não há atendimento neste dia. Escolha outra data.";
-    return;
-  }
+    if (!slots.length) {
+        status.textContent = "Não há atendimento neste dia. Escolha outra data.";
+        return;
+    }
 
-  const free = slots.filter((slot) => slot.available).length;
+    const free = slots.filter((slot) => slot.available).length;
 
-  status.textContent = free
-    ? `${free} horários disponíveis. Os horários apagados estão indisponíveis.`
-    : "Todos os horários estão indisponíveis. Experimente outro dia.";
+    status.textContent = free
+        ? `${free} horários disponíveis. Os horários apagados estão indisponíveis.`
+        : "Todos os horários estão indisponíveis. Experimente outro dia.";
 
-  slots.forEach(({ time, available }) => {
-    const label = document.createElement("label");
-    label.className = "booking__slot";
+    slots.forEach(({ time, available }) => {
+        const label = document.createElement("label");
+        label.className = "booking__slot";
 
-    const input = document.createElement("input");
-    input.type = "radio";
-    input.name = "time";
-    input.value = time;
-    input.required = true;
-    input.disabled = !available;
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "time";
+        input.value = time;
+        input.required = true;
+        input.disabled = !available;
 
-    const text = document.createElement("span");
-    text.textContent = time;
+        const text = document.createElement("span");
+        text.textContent = time;
 
-    input.setAttribute(
-      "aria-label",
-      available ? time : `${time}, indisponível`
-    );
+        input.setAttribute(
+            "aria-label",
+            available ? time : `${time}, indisponível`
+        );
 
-    input.addEventListener("change", () => {
-      selectedTime = time;
-      submit.disabled = false;
-      error.textContent = "";
+        input.addEventListener("change", () => {
+            selectedTime = time;
+            submit.disabled = false;
+            error.textContent = "";
+        });
+
+        label.append(input, text);
+        timesContainer.appendChild(label);
     });
-
-    label.append(input, text);
-    timesContainer.appendChild(label);
-  });
 }
 
 function showForm() {
-  success.hidden = true;
-  form.hidden = false;
-  renderTimes();
+    success.hidden = true;
+    form.hidden = false;
+    renderTimes();
 }
 
 function openBooking(event) {
-  event.preventDefault();
+    event.preventDefault();
 
-  // Evita que o link também navegue até #contato.
-  event.stopPropagation();
+    // Evita que o link também navegue até #contato.
+    event.stopPropagation();
 
-  opener = event.currentTarget;
+    opener = event.currentTarget;
 
-  form.reset();
-  showForm();
+    form.reset();
+    showForm();
 
-  if (!dialog.open) {
-    dialog.showModal();
-    document.documentElement.classList.add("booking-open");
-  }
+    if (!dialog.open) {
+        dialog.showModal();
+        document.documentElement.classList.add("booking-open");
+    }
 }
 
 function closeBooking() {
-  dialog.close();
+    dialog.close();
 }
 
 const triggers = document.querySelectorAll(
-  ".hero__actions .button--glass, .services__cta, .service-card__schedule"
+    ".hero__actions .button--glass, .services__cta, .service-card__schedule"
 );
 
 triggers.forEach((trigger) => {
-  trigger.addEventListener("click", openBooking);
+    trigger.addEventListener("click", openBooking);
 });
 
 dialog.querySelector(".booking__close")
-  .addEventListener("click", closeBooking);
+    .addEventListener("click", closeBooking);
 
 dialog.addEventListener("click", (event) => {
-  if (event.target !== dialog) return;
+    if (event.target !== dialog) return;
 
-  const bounds = dialog.getBoundingClientRect();
+    const bounds = dialog.getBoundingClientRect();
 
-  if (
-    event.clientX < bounds.left ||
-    event.clientX > bounds.right ||
-    event.clientY < bounds.top ||
-    event.clientY > bounds.bottom
-  ) {
-    closeBooking();
-  }
+    if (
+        event.clientX < bounds.left ||
+        event.clientX > bounds.right ||
+        event.clientY < bounds.top ||
+        event.clientY > bounds.bottom
+    ) {
+        closeBooking();
+    }
 });
 
 dialog.addEventListener("close", () => {
-  document.documentElement.classList.remove("booking-open");
-  opener?.focus({ preventScroll: true });
+    document.documentElement.classList.remove("booking-open");
+    opener?.focus({ preventScroll: true });
 });
 
 serviceInput.addEventListener("change", renderTimes);
 dateInput.addEventListener("change", renderTimes);
 
 dialog.querySelector(".booking__again").addEventListener("click", () => {
-  showForm();
-  serviceInput.focus();
+    showForm();
+    serviceInput.focus();
 });
 
 form.addEventListener("submit", (event) => {
-  event.preventDefault();
+    event.preventDefault();
 
-  updateDateLimits();
+    updateDateLimits();
 
-  if (!form.reportValidity() || !selectedTime) return;
+    if (!form.reportValidity() || !selectedTime) return;
 
-  // Atualiza as reservas salvas em outra aba deste navegador.
-  const saved = readBookings();
-  const merged = new Map(
-    [...bookings, ...saved].map((booking) => [
-      `${booking.day}|${booking.time}`,
-      booking,
-    ])
-  );
-  bookings = [...merged.values()];
+    // Atualiza as reservas salvas em outra aba deste navegador.
+    const saved = readBookings();
+    const merged = new Map(
+        [...bookings, ...saved].map((booking) => [
+            `${booking.day}|${booking.time}`,
+            booking,
+        ])
+    );
+    bookings = [...merged.values()];
 
-  const slot = availableTimes(dateInput.value).find(
-    (item) => item.time === selectedTime
-  );
+    const slot = availableTimes(dateInput.value).find(
+        (item) => item.time === selectedTime
+    );
 
-  if (!slot?.available) {
-    renderTimes();
-    error.textContent = "Esse horário não está mais disponível. Escolha outro.";
-    return;
-  }
+    if (!slot?.available) {
+        renderTimes();
+        error.textContent = "Esse horário não está mais disponível. Escolha outro.";
+        return;
+    }
 
-  const booking = {
-    service: serviceInput.value,
-    day: dateInput.value,
-    time: selectedTime,
-  };
+    const booking = {
+        service: serviceInput.value,
+        day: dateInput.value,
+        time: selectedTime,
+    };
 
-  bookings.push(booking);
+    bookings.push(booking);
 
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(bookings));
-  } catch {
-    // Se o navegador bloquear o armazenamento, vale só nesta página.
-  }
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(bookings));
+    } catch {
+        // Se o navegador bloquear o armazenamento, vale só nesta página.
+    }
 
-  const formattedDate = new Intl.DateTimeFormat("pt-BR", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  }).format(new Date(`${booking.day}T12:00:00`));
+    const formattedDate = new Intl.DateTimeFormat("pt-BR", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+    }).format(new Date(`${booking.day}T12:00:00`));
 
-  summary.textContent =
-    `${booking.service} — ${formattedDate}, às ${booking.time}.`;
+    summary.textContent =
+        `${booking.service} — ${formattedDate}, às ${booking.time}.`;
 
-  form.hidden = true;
-  success.hidden = false;
-  dialog.querySelector(".booking__again").focus();
+    form.hidden = true;
+    success.hidden = false;
+    dialog.querySelector(".booking__again").focus();
 });
 
 if (import.meta.hot) {
-  import.meta.hot.dispose(() => {
-    triggers.forEach((trigger) => {
-      trigger.removeEventListener("click", openBooking);
-    });
+    import.meta.hot.dispose(() => {
+        triggers.forEach((trigger) => {
+            trigger.removeEventListener("click", openBooking);
+        });
 
-    document.documentElement.classList.remove("booking-open");
-    dialog.remove();
-  });
+        document.documentElement.classList.remove("booking-open");
+        dialog.remove();
+    });
 }
