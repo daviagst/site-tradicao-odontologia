@@ -60,21 +60,8 @@ if (section && gallery && photos.length > 1) {
       // Mantém as fotos circulando entre esquerda, centro e direita.
       const wrap = gsap.utils.wrap(-total / 2, total / 2);
 
-      gsap.set(photos, {
-        xPercent: -50,
-        yPercent: -50,
-        transformOrigin: "center center",
-        opacity: 1,
-        zIndex: 0,
-      });
-
-      // Atualizadores rápidos para acompanhar a rolagem.
-      const setters = photos.map((photo) => ({
-        x: gsap.quickSetter(photo, "x", "px"),
-        scale: gsap.quickSetter(photo, "scale"),
-        opacity: gsap.quickSetter(photo, "opacity"),
-        zIndex: gsap.quickSetter(photo, "zIndex"),
-      }));
+      // Salva os estilos para restaurar a galeria ao mudar de orientação.
+      const savedStyles = photos.map(photo => photo.getAttribute('style'));
 
       let spacing = 0;
 
@@ -92,15 +79,21 @@ if (section && gallery && photos.length > 1) {
               ? 1
               : Math.max(0, 1 - (absolute - 1) / 0.45);
 
-          setters[index].x(distance * spacing);
-          setters[index].scale(scale);
-          setters[index].opacity(opacity);
-          setters[index].zIndex(Math.round(100 - absolute * 10));
+          // Aplica posição e os dois eixos da escala juntos.
+          // Evita atualizadores independentes sobrescreverem a transformação.
+          photo.style.transform = `translate(-50%, -50%) translateX(${distance * spacing}px) scale(${scale})`;
+          photo.style.opacity = String(opacity);
+          photo.style.zIndex = String(Math.round(100 - absolute * 10));
         });
       }
 
       function measure() {
-        spacing = Math.min(gallery.clientWidth * 0.34, 480);
+        const mobile = window.innerWidth < 768;
+        spacing = mobile
+          ? gallery.clientWidth * 0.52
+          : Math.min(gallery.clientWidth * 0.38, 520);
+        // Reserva espaço também durante a troca entre duas fotos.
+        spacing = Math.max(spacing, photos[0].offsetWidth * 0.725 + (mobile ? 24 : 40));
         render();
       }
 
@@ -141,6 +134,10 @@ if (section && gallery && photos.length > 1) {
 
       return () => {
         section.classList.remove("is-scroll-gallery");
+        photos.forEach((photo, index) => {
+          if (savedStyles[index] === null) photo.removeAttribute('style');
+          else photo.setAttribute('style', savedStyles[index]);
+        });
 
         pendingImages.forEach((image) => {
           image.removeEventListener("load", refresh);

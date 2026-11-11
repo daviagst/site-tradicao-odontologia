@@ -91,7 +91,7 @@ section:focus { outline: none; }
   .clinic__heading p { font-size: 13px; max-width: 300px; margin-top: 16px; }
   .clinic__gallery { margin-top: 20px; padding: 12px 24px; gap: 16px; scroll-padding-inline: 24px; }
   .clinic__photo { flex: 0 0 86%; height: 340px; }
-  .is-scroll-gallery .clinic__photo { width: 68%; }
+  .is-scroll-gallery .clinic__photo { width: 58%; }
   .team__title { font-size: 29px; line-height: 1.15; margin-bottom: 32px; }
   .team.is-stacked { padding: 24px; }
   .is-stacked .team__stack { height: 404px; }
