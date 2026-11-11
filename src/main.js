@@ -2,6 +2,7 @@ import "./style.css";
 import "./responsive.css";
 import { gsap } from "gsap";
 import "./services.js";
+import "./booking.js";
 import "./clinic.js"
 import "./section-texts.js";
 import "./team.js";
